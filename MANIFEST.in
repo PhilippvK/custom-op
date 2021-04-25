@@ -1,2 +1,5 @@
 recursive-include tensorflow_zero_out *.so
+recursive-include tensorflow_add_one *.so
+recursive-include tensorflow_reverse_sequence2 *.so
+recursive-include tensorflow_complex *.so
 recursive-include tensorflow_time_two *.so
