@@ -13,10 +13,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#if GOOGLE_CUDA
-#define EIGEN_USE_GPU
-#endif  // GOOGLE_CUDA
-
 #include "time_two.h"
 #include "tensorflow/core/framework/op_kernel.h"
 
@@ -71,15 +67,5 @@ class TimeTwoOp : public OpKernel {
 REGISTER_CPU(float);
 REGISTER_CPU(int32);
 
-// Register the GPU kernels.
-#ifdef GOOGLE_CUDA
-#define REGISTER_GPU(T)                                          \
-  extern template struct TimeTwoFunctor<GPUDevice, T>;           \
-  REGISTER_KERNEL_BUILDER(                                       \
-      Name("TimeTwo").Device(DEVICE_GPU).TypeConstraint<T>("T"), \
-      TimeTwoOp<GPUDevice, T>);
-REGISTER_GPU(float);
-REGISTER_GPU(int32);
-#endif  // GOOGLE_CUDA
 }
 }  // namespace tensorflow
