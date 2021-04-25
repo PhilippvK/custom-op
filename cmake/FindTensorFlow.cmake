@@ -1,14 +1,14 @@
-include(FindPackageHandleStandardArgs)
+INCLUDE(FindPackageHandleStandardArgs)
 
 IF(TensorFlow_FOUND AND EXISTS "${TF_LIB}" AND IS_DIRECTORY "${TF_INC}")
   # TODO: fix this
   MESSAGE(STATUS "Reuse cached information from TensorFlow")
 ELSE()
   SET(Python3_FIND_VIRTUALENV FIRST)
-  FIND_PACKAGE (Python3 REQUIRED)
+  FIND_PACKAGE(Python3 REQUIRED)
 
   EXECUTE_PROCESS(
-    COMMAND ${Python3_EXECUTABLE} -m pip show tensorflow
+    COMMAND ${Python3_EXECUTABLE} -c "import tensorflow"
     RESULT_VARIABLE EXIT_CODE
     OUTPUT_QUIET
   )
@@ -30,13 +30,13 @@ ELSE()
   )
 
   FIND_LIBRARY(TensorFlow_LIBRARY
-    NAMES tensorflow_framework.2
+    NAMES tensorflow_framework.2 libtensorflow_framework.so.2
     HINTS
     ${PYTHON_TF_LIB}
   )
 
   # set TensorFlow_FOUND
-  find_package_handle_standard_args(TensorFlow DEFAULT_MSG TensorFlow_INCLUDE_DIR TensorFlow_LIBRARY)
+  FIND_PACKAGE_HANDLE_STANDARD_ARGS(TensorFlow DEFAULT_MSG TensorFlow_INCLUDE_DIR TensorFlow_LIBRARY)
 
   # set external variables for usage in CMakeLists.txt
   IF(TensorFlow_FOUND)
