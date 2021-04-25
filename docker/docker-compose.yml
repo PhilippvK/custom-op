@@ -1,0 +1,13 @@
+# docker-compose.yml
+
+version: '3.9'
+services:
+  custom-op:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CMAKE_VERSION: "3.20.0"
+    working_dir: /custom-op
+    volumes:
+      - ../:/custom-op/
